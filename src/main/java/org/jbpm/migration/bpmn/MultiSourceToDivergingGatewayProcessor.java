@@ -91,7 +91,10 @@ public class MultiSourceToDivergingGatewayProcessor implements DomProcessor {
 			.namespace("di", "http://www.omg.org/spec/DD/20100524/DI")
 			.namespace("dc", "http://www.omg.org/spec/DD/20100524/DC")
 			.find("BPMNPlane").first().append(
-				$("bpmndi:BPMNShape").attr("bpmnElement", gatewayName).append($(bpmnShapeOriginal)));
+				$("bpmndi:BPMNShape").attr("id", "BPMNShape_"+gatewayName).attr("bpmnElement", gatewayName).append($(bpmnShapeOriginal)));
+		}
+		else {
+			System.out.println("Didn't create BPMNShape for: "+gatewayName);
 		}
 	}
 	

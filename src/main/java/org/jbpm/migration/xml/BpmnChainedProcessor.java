@@ -3,6 +3,7 @@ package org.jbpm.migration.xml;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jbpm.migration.bpmn.GenerateBPMNEdgeProcessor;
 import org.jbpm.migration.bpmn.GenerateProcessVariablesProcessor;
 import org.jbpm.migration.bpmn.GenerateUniqueIoSpecificationIdProcessor;
 import org.jbpm.migration.bpmn.MultiSourceToDivergingGatewayProcessor;
@@ -23,6 +24,7 @@ public class BpmnChainedProcessor implements DomProcessor {
 		domEnhancers.add(new GenerateUniqueIoSpecificationIdProcessor());
 		domEnhancers.add(new MultiTargetToConvergingGatewayProcessor());
 		domEnhancers.add(new MultiSourceToDivergingGatewayProcessor());
+		domEnhancers.add(new GenerateBPMNEdgeProcessor());
 	}
 
 	public void preProcess(DomProcessor processor) {

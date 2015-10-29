@@ -30,6 +30,10 @@
 	  <xsl:attribute name="bpmnElement">
 	  	<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
       </xsl:attribute>
+      <xsl:attribute name="id">
+      	<xsl:text>BPMNShape_</xsl:text>
+      	<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
+      </xsl:attribute>
       <dc:Bounds>
       	<xsl:attribute name="x">
 			<xsl:value-of select="@x" />
