@@ -104,6 +104,20 @@ public final class JbpmMigration {
      * @param bpmnFile
      */
     public static void transform(final File jpdlFile, final File gpdFile, final File bpmnFile) {
+    	//test the JDPL to see if it has a namespace...
+    	try {
+    		Document doc = $(jpdlFile).document();
+    		String namespace = StringUtils.trimToNull($(doc).namespaceURI());
+    		if(StringUtils.isBlank(namespace)) {
+    			//must transform to correct namespace for XSLT to work.
+    			$(doc).attr("xmlns", "urn:jbpm.org:jpdl-3.2");
+    			$(doc).write(jpdlFile);
+    		}
+    	}
+    	catch(Exception e) {
+    		LOG.error("Exception reading namespace of: "+jpdlFile.getAbsolutePath());
+    		return;
+    	}
     	
     	transform(jpdlFile.getAbsolutePath(), null, bpmnFile.getAbsolutePath());
     	
