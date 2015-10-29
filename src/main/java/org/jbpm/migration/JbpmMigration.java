@@ -11,7 +11,10 @@
  */
 package org.jbpm.migration;
 
+import static org.joox.JOOX.$;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 
@@ -23,15 +26,19 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jbpm.migration.Validator.ProcessLanguage;
+import org.jbpm.migration.bpmn.BpmnChainedProcessor;
+import org.jbpm.migration.bpmn.GpdToBpmnProcessor;
+import org.w3c.dom.Document;
 
 /**
  * @author Eric D. Schabell
  * @author Maurice de Chateau
+ * @author Brad Davis - bradsdavis@gmail.com
  */
 public final class JbpmMigration {
     // Default XSLT sheet.
     private static final String DEFAULT_XSLT_SHEET = "jpdl3-bpmn2.xsl";
-
+    
     /** Private constructor to prevent instantiation. */
     private JbpmMigration() {
     }
@@ -47,6 +54,8 @@ public final class JbpmMigration {
         } else if (args.length == 3) {
             // using arg[1] as XSLT stylesheet.
             transform(args[0], args[1], args[2]);
+        } else if (args.length == 4) {
+        	
         } else {
             System.err.println("Usage:");
             System.err.println("  java " + JbpmMigration.class.getName() + " jpdlProcessDefinitionFileName xsltFileName outputFileName");
@@ -79,8 +88,43 @@ public final class JbpmMigration {
         // Transform the given input file and put the result in the given output file.
         final Source xmlSource = new StreamSource(new File(xmlFileName));
         final Result xmlResult = new StreamResult(new File(outputFileName));
-
+        
         XmlUtils.transform(xmlSource, xsltSource, xmlResult);
+    }
+    
+
+    /** 
+     * Transforms jPDL to BPMN; supports GPD 
+     * 
+     * @param jpdlFile
+     * @param gpdFile
+     * @param bpmnFile
+     */
+    public static void transform(final File jpdlFile, final File gpdFile, final File bpmnFile) {
+    	
+    	transform(jpdlFile.getAbsolutePath(), null, bpmnFile.getAbsolutePath());
+    	
+    	
+    	//processes the BPMN to resolve legacy jPDL patterns to BPMN compliant XML
+        Document document;
+		try {
+			document = $(bpmnFile).document();
+			
+			BpmnChainedProcessor cp = new BpmnChainedProcessor();
+			if(gpdFile != null) {
+				cp.preProcess(new GpdToBpmnProcessor(gpdFile));
+			}
+	    	cp.process(document);
+			
+			$(document).write(new FileOutputStream(bpmnFile));
+		} catch (Exception e) {
+		}
+		
+    }
+
+    
+    public static void transform(final File jpdlFile, final File bpmnFile) {
+    	transform(jpdlFile.getAbsolutePath(), null, bpmnFile.getAbsolutePath());
     }
 
     /**
@@ -90,6 +134,7 @@ public final class JbpmMigration {
      *            The input JPDL definition (as an XML {@link String}).
      * @return The output BPMN2 definition (as an XML {@link String} as well).
      */
+    @Deprecated
     public static String transform(final String inputString) {
         final StringWriter outputWriter = new StringWriter();
 
@@ -97,8 +142,10 @@ public final class JbpmMigration {
         final Source xsltSource = new StreamSource(Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_XSLT_SHEET));
         XmlUtils.transform(new StreamSource(new StringReader(inputString)), xsltSource, new StreamResult(outputWriter));
 
-        return outputWriter.toString();
+        Document document = $(outputWriter.toString()).document();
+        return $(document).toString();
     }
+    
 
     public static boolean validateJpdl(final String inputString) {
         return Validator.validateDefinition(inputString, ProcessLanguage.JPDL);

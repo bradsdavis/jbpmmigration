@@ -88,7 +88,14 @@ public abstract class AbstractJpdl3Test {
         }
 
         // Transform the input file; creates the output file.
-        JbpmMigration.main(new String[] { jpdl.getPath(), XSLT_SHEET, getResultsFile() });
+        String gpdFilePath = getGpdFile();
+        
+        if(gpdFilePath == null) {
+        	JbpmMigration.transform(new File(jpdl.getPath()), new File(getResultsFile()));
+        }
+        else {
+        	JbpmMigration.transform(new File(jpdl.getPath()), new File(gpdFilePath), new File(getResultsFile()));
+        }
 
         // Check that an output file is created.
         bpmn = new File(getResultsFile());
@@ -110,4 +117,8 @@ public abstract class AbstractJpdl3Test {
     }
 
     protected abstract String getJpdlFile();
+    
+    protected String getGpdFile() {
+    	return null;
+    }
 }

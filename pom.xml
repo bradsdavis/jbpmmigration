@@ -140,6 +140,11 @@
     </dependencyManagement>
 
     <dependencies>
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>joox</artifactId>
+			<version>1.3.0</version>
+		</dependency>
         <!-- XSLT. -->
         <dependency>
             <groupId>xalan</groupId>
