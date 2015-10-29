@@ -2,7 +2,9 @@
 
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:jpdl="urn:jbpm.org:jpdl-3.2"
-  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:java="http://xml.apache.org/xslt/java"
+  extension-element-prefixes="java">
 
   <xsl:template match="jpdl:transition">
   	
@@ -18,7 +20,7 @@
        		<xsl:value-of select="$superstate" />
 			<xsl:text>_</xsl:text>
 		</xsl:if>
-		<xsl:value-of select="translate(../@name,' ','_')" />     
+		<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(../@name)" />     
 	  </xsl:attribute>
 	  
 	  <xsl:choose>
@@ -27,7 +29,7 @@
 			    <xsl:when test="contains((jpdl:super-state), 'superstate-leave')">
 				  <xsl:attribute name="targetRef">
 				  	<xsl:text>javanode_leavenode_</xsl:text>
-			        <xsl:value-of select="translate(@name,' ','_')" />
+			        <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 				  </xsl:attribute>		  		  	
 			  	</xsl:when>
 			  	<xsl:when test="substring-after(substring-after(@to, '/'), '/')">
@@ -68,7 +70,7 @@
 					  		<xsl:otherwise>
 					  			<xsl:value-of select="$superstate" />
 								<xsl:text>_</xsl:text>
-					  			<xsl:value-of select="translate(@to,' ','_')" />
+					  			<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@to)" />
 					  		</xsl:otherwise>
 					  	</xsl:choose>
 					</xsl:when>
@@ -80,7 +82,7 @@
 					  			<xsl:value-of select="substring-after(@to, '/')" />
 					  		</xsl:when>
 					  		<xsl:otherwise>
-					  			<xsl:value-of select="translate(@to,' ','_')" />
+					  			<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@to)" />
 					  		</xsl:otherwise>
 					  	</xsl:choose>
 					</xsl:otherwise>
@@ -99,10 +101,10 @@
    		<xsl:value-of select="generate-id()" />
 	  </xsl:attribute>
       <xsl:attribute name="sourceRef">
-	    <xsl:value-of select="translate(../@name,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(../@name)" />
 	  </xsl:attribute>
       <xsl:attribute name="targetRef">
-	    <xsl:value-of select="translate(@to,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@to)" />
 	  </xsl:attribute>
 	  <conditionExpression>
 	  	<xsl:attribute name="id">
@@ -122,10 +124,10 @@
 	  </xsl:attribute>
       <xsl:attribute name="sourceRef">
 		<xsl:text>javanode_</xsl:text>
-	    <xsl:value-of select="translate(../@name,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(../@name)" />
 	  </xsl:attribute>
       <xsl:attribute name="targetRef">
-	    <xsl:value-of select="translate(@to,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@to)" />
 	  </xsl:attribute>
     </sequenceFlow>
   </xsl:template>
@@ -137,10 +139,10 @@
    		<xsl:value-of select="generate-id()" />
 	  </xsl:attribute>
       <xsl:attribute name="sourceRef">
-	    <xsl:value-of select="translate(../@name,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(../@name)" />
 	  </xsl:attribute>
       <xsl:attribute name="targetRef">
-	    <xsl:value-of select="translate(@to,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@to)" />
 	  </xsl:attribute>
     </sequenceFlow>
   </xsl:template>
@@ -153,10 +155,10 @@
 	  </xsl:attribute>
       <xsl:attribute name="sourceRef">
 		<xsl:text>javanode_leavenode_</xsl:text>
-	    <xsl:value-of select="translate(../@name,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(../@name)" />
 	  </xsl:attribute>
       <xsl:attribute name="targetRef">
-	    <xsl:value-of select="translate(@to,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@to)" />
 	  </xsl:attribute>
     </sequenceFlow>
   </xsl:template>
@@ -169,10 +171,10 @@
 	  </xsl:attribute>
       <xsl:attribute name="sourceRef">
 		<xsl:text>usertask_</xsl:text>
-	    <xsl:value-of select="translate(../@name,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(../@name)" />
 	  </xsl:attribute>
       <xsl:attribute name="targetRef">
-	    <xsl:value-of select="translate(@to,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@to)" />
 	  </xsl:attribute>
     </sequenceFlow>
   </xsl:template>
@@ -185,10 +187,10 @@
 	  </xsl:attribute>
       <xsl:attribute name="sourceRef">
 		<xsl:text>nodetask_</xsl:text>
-	    <xsl:value-of select="translate(../@name,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(../@name)" />
 	  </xsl:attribute>
       <xsl:attribute name="targetRef">
-	    <xsl:value-of select="translate(@to,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@to)" />
 	  </xsl:attribute>
     </sequenceFlow>
   </xsl:template>
@@ -201,10 +203,10 @@
 	  </xsl:attribute>
       <xsl:attribute name="sourceRef">
 		<xsl:text>javanode_leavenode_</xsl:text>
-	    <xsl:value-of select="translate(../@name,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(../@name)" />
 	  </xsl:attribute>
       <xsl:attribute name="targetRef">
-	    <xsl:value-of select="translate(@to,' ','_')" />
+	    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@to)" />
 	  </xsl:attribute>
     </sequenceFlow>
   </xsl:template>

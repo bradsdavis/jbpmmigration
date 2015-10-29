@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xsl:stylesheet version="1.0"
+<xsl:stylesheet version="2.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:jpdl="urn:jbpm.org:jpdl-3.2"
-  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:java="http://xml.apache.org/xslt/java"
+  extension-element-prefixes="java">
 
   <xsl:output method="xml" indent="yes" />
 
@@ -26,7 +28,7 @@
   <xsl:template match="node">
 	<bpmndi:BPMNShape xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
 	  <xsl:attribute name="bpmnElement">
-	  	<xsl:value-of select="translate(@name,' ','_')" />
+	  	<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
       </xsl:attribute>
       <dc:Bounds>
       	<xsl:attribute name="x">

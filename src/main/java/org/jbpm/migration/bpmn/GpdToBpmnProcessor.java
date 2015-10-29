@@ -8,7 +8,7 @@ import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.log4j.Logger;
-import org.jbpm.migration.DomProcessor;
+import org.jbpm.migration.xml.DomProcessor;
 import org.w3c.dom.Document;
 
 /**

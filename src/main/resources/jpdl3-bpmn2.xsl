@@ -2,7 +2,9 @@
 
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:jpdl="urn:jbpm.org:jpdl-3.2"
-  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:java="http://xml.apache.org/xslt/java"
+  extension-element-prefixes="java">
 
   <!-- Import the pieces of jPDL we need. -->
   <xsl:import href="start-state-bpmn.xsl" />
@@ -27,10 +29,10 @@
       xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:drools="http://www.jboss.org/drools" targetNamespace="http://www.jbpm.org/">
       <xsl:attribute name="id">
-   		<xsl:value-of select="translate(jpdl:process-definition/@name,' ','_')" />
+   		<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(jpdl:process-definition/@name)" />
       </xsl:attribute>
       <xsl:attribute name="name">
-        <xsl:value-of select="translate(jpdl:process-definition/@name,' ','_')" />
+        <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(jpdl:process-definition/@name)" />
       </xsl:attribute>
       <xsl:apply-templates select="jpdl:process-definition" />
     </definitions>
@@ -39,7 +41,7 @@
   <xsl:template match="jpdl:process-definition">
     <process>
       <xsl:attribute name="id">
-	  	<xsl:value-of select="translate(@name,' ','_')" /><xsl:text>_Process</xsl:text>
+	  	<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" /><xsl:text>_Process</xsl:text>
       </xsl:attribute>
       <xsl:attribute name="name">
 	  	<xsl:value-of select="@name" />

@@ -2,7 +2,9 @@
 
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:jpdl="urn:jbpm.org:jpdl-3.2"
-  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:java="http://xml.apache.org/xslt/java"
+  extension-element-prefixes="java">
 
   <!-- Import the pieces of jPDL we need. -->
   <xsl:import href="transition-bpmn.xsl" />
@@ -13,7 +15,7 @@
 		<xsl:value-of select="@name" />
       </xsl:attribute>
       <xsl:attribute name="id">
-        <xsl:value-of select="translate(@name,' ','_')" />
+        <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
       </xsl:attribute>
       <xsl:attribute name="gatewayDirection">
        	<xsl:text>Diverging</xsl:text>
@@ -34,7 +36,7 @@
 		<xsl:value-of select="@name" />
 	  </xsl:attribute>
       <xsl:attribute name="id">
-        <xsl:value-of select="translate(@name,' ','_')" />
+        <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
       </xsl:attribute>
       <xsl:attribute name="gatewayDirection">
        	<xsl:text>Converging</xsl:text>

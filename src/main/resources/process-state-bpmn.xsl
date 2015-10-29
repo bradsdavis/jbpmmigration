@@ -2,7 +2,9 @@
 
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:jpdl="urn:jbpm.org:jpdl-3.2"
-  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:java="http://xml.apache.org/xslt/java"
+  extension-element-prefixes="java">
 
   <!-- TODO: future work, to try and come up with a way to make the         -->
   <!--       id's of variables unique when the name of the var's remain the -->
@@ -18,7 +20,7 @@
         <xsl:value-of select="@name" />
 	  </xsl:attribute>
       <xsl:attribute name="id">
-        <xsl:value-of select="translate(@name,' ', '_')" />
+        <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
       </xsl:attribute>
       
       <xsl:if test="jpdl:description">
@@ -32,8 +34,7 @@
    		<xsl:for-each select="jpdl:variable">
 		  	<dataInput>
 				<xsl:attribute name="id">
-					<xsl:value-of select="translate(@name,' ','_')" />
-					<xsl:text>_</xsl:text>
+					<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 		   			<xsl:text>Input</xsl:text>
 		  		</xsl:attribute>
 		        <xsl:attribute name="name">
@@ -44,8 +45,7 @@
 		<xsl:for-each select="jpdl:variable">
 			<dataOutput>
 		        <xsl:attribute name="id">
-					<xsl:value-of select="translate(@name,' ','_')" />
-				   	<xsl:text>_</xsl:text>
+					<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 		   			<xsl:text>Output</xsl:text>
 				</xsl:attribute>
 		        <xsl:attribute name="name">
@@ -56,8 +56,7 @@
 	    <inputSet>
 			<xsl:for-each select="jpdl:variable">
     	      	<dataInputRefs>
-					<xsl:value-of select="translate(@name,' ','_')" />
-            		<xsl:text>_</xsl:text>
+					<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
             		<xsl:text>Input</xsl:text>
           		</dataInputRefs>
 			</xsl:for-each>
@@ -65,8 +64,7 @@
 	    <outputSet>
 			<xsl:for-each select="jpdl:variable">
     			<dataOutputRefs>
-					<xsl:value-of select="translate(@name,' ','_')" />
-            		<xsl:text>_</xsl:text>
+					<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
             		<xsl:text>Output</xsl:text>
           		</dataOutputRefs>
 			</xsl:for-each>
@@ -75,28 +73,22 @@
 	  <xsl:for-each select="jpdl:variable">
       	<dataInputAssociation>
         	<sourceRef>
-			  <xsl:value-of select="translate(@name,' ','_')" />
-          		<xsl:text>_</xsl:text>
-          		<xsl:text>Input</xsl:text> 
+			  <xsl:value-of select="./@name" />
         	</sourceRef>
         	<targetRef>
-				<xsl:value-of select="translate(@name,' ','_')" />
-          		<xsl:text>_</xsl:text>
-          		<xsl:text>Output</xsl:text>
+				<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
+          		<xsl:text>Input</xsl:text>
         	</targetRef>
       	</dataInputAssociation>
       </xsl:for-each> 	
 	  <xsl:for-each select="jpdl:variable">
 	      <dataOutputAssociation>
     	    <sourceRef>
-			  <xsl:value-of select="translate(@name,' ','_')" />
- 	          <xsl:text>_</xsl:text>
+			  <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
    		      <xsl:text>Output</xsl:text>
         	</sourceRef>
         	<targetRef>
-				<xsl:value-of select="translate(@name,' ','_')" />
- 	          <xsl:text>_</xsl:text>
-   		      <xsl:text>Input</xsl:text>
+				<xsl:value-of select="./@name" />
         	</targetRef>
       	 </dataOutputAssociation>
       </xsl:for-each> 	

@@ -2,7 +2,9 @@
 
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:drools="http://www.jboss.org/drools"
-  xmlns:jpdl="urn:jbpm.org:jpdl-3.2" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL">
+  xmlns:jpdl="urn:jbpm.org:jpdl-3.2" xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:java="http://xml.apache.org/xslt/java"
+  extension-element-prefixes="java">
 
   <!-- Import the pieces of jPDL we need. -->
   <xsl:import href="transition-bpmn.xsl" />
@@ -23,7 +25,7 @@
        		<xsl:value-of select="@name" />
           </xsl:attribute>
           <xsl:attribute name="id">
-          	<xsl:value-of select="translate(@name,' ','_')" />
+          	<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
           </xsl:attribute>
 
           <xsl:if test="jpdl:description">
@@ -35,25 +37,25 @@
         <sequenceFlow>
           <xsl:attribute name="id">
 		  	<xsl:text>flow_</xsl:text>
-		  	<xsl:value-of select="translate(@name,' ','_')" />
+		  	<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 		  </xsl:attribute>
           <xsl:attribute name="sourceRef">
-		    <xsl:value-of select="translate(@name,' ','_')" />
+		    <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 		  </xsl:attribute>
           <xsl:attribute name="targetRef">
 			<xsl:text>javanode_</xsl:text>
-			<xsl:value-of select="translate(@name,' ','_')" />
+			<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 		  </xsl:attribute>
         </sequenceFlow>
 
         <task>
           <xsl:attribute name="id">
 			<xsl:text>javanode_</xsl:text>
-			<xsl:value-of select="translate(@name,' ','_')" />
+			<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 		  </xsl:attribute>
           <xsl:attribute name="name">
 			<xsl:text>added to execute: </xsl:text>
-			<xsl:value-of select="translate(@name,' ','_')" />
+			<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 		  </xsl:attribute>
           <xsl:attribute name="drools:taskName">
 			<xsl:text>JavaNode</xsl:text>
@@ -62,7 +64,7 @@
           <ioSpecification>
             <dataInput>
               <xsl:attribute name="id">
-				<xsl:value-of select="translate(@name,' ','_')" />
+				<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 				<xsl:text>_classInput</xsl:text>
 			  </xsl:attribute>
               <xsl:attribute name="name">
@@ -71,7 +73,7 @@
             </dataInput>
             <dataInput>
               <xsl:attribute name="id">
-				<xsl:value-of select="translate(@name,' ','_')" />
+				<xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
 			    <xsl:text>_methodInput</xsl:text>
 			  </xsl:attribute>
               <xsl:attribute name="name">
@@ -80,11 +82,11 @@
             </dataInput>
             <inputSet>
               <dataInputRefs>
-                <xsl:value-of select="translate(@name,' ','_')" />
+                <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
                 <xsl:text>_classInput</xsl:text>
               </dataInputRefs>
               <dataInputRefs>
-                <xsl:value-of select="translate(@name,' ','_')" />
+                <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
                 <xsl:text>_methodInput</xsl:text>
               </dataInputRefs>
             </inputSet>
@@ -92,7 +94,7 @@
           </ioSpecification>
           <dataInputAssociation>
             <targetRef>
-              <xsl:value-of select="translate(@name,' ','_')" />
+              <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
               <xsl:text>_classInput</xsl:text>
             </targetRef>
             <assignment>
@@ -115,7 +117,7 @@
           </dataInputAssociation>
           <dataInputAssociation>
             <targetRef>
-              <xsl:value-of select="translate(@name,' ','_')" />
+              <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
               <xsl:text>_methodInput</xsl:text>
             </targetRef>
             <assignment>
@@ -139,7 +141,7 @@
             <xsl:value-of select="@name" />
           </xsl:attribute>
           <xsl:attribute name="id">
-            <xsl:value-of select="translate(@name,' ','_')" />
+            <xsl:value-of select="java:org.jbpm.migration.xml.IdGeneratorUtil.translate(@name)" />
           </xsl:attribute>
 
           <xsl:if test="jpdl:description">

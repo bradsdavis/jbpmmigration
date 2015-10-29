@@ -25,9 +25,15 @@ package org.jbpm.migration.xsl;
 public class Jpdl3DueDateActionFinanceProcessTest extends AbstractJpdl3Test {
     // Input jPDL file.
     private static final String INPUT_JPDL = "src/test/resources/jpdl3/dueDateActionFinanceProcess/processdefinition.xml";
+    private static final String INPUT_GPD = "src/test/resources/jpdl3/dueDateActionFinanceProcess/gpd.xml";
 
     @Override
     protected String getJpdlFile() {
         return INPUT_JPDL;
+    }
+    
+    @Override
+    protected String getGpdFile() {
+    	return INPUT_GPD;
     }
 }

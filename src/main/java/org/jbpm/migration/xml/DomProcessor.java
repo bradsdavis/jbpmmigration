@@ -1,4 +1,4 @@
-package org.jbpm.migration;
+package org.jbpm.migration.xml;
 
 import org.w3c.dom.Document;
 

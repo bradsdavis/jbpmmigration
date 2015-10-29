@@ -8,7 +8,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.jbpm.migration.DomProcessor;
+import org.jbpm.migration.xml.DomProcessor;
 import org.joox.Match;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

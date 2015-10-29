@@ -27,9 +27,9 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jbpm.migration.Validator.ProcessLanguage;
-import org.jbpm.migration.bpmn.BpmnChainedProcessor;
 import org.jbpm.migration.bpmn.GpdToBpmnProcessor;
 import org.jbpm.migration.bpmn.MultiSourceToDivergingGatewayProcessor;
+import org.jbpm.migration.xml.BpmnChainedProcessor;
 import org.w3c.dom.Document;
 
 /**

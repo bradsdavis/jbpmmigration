@@ -1,9 +1,12 @@
-package org.jbpm.migration.bpmn;
+package org.jbpm.migration.xml;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import org.jbpm.migration.DomProcessor;
+import org.jbpm.migration.bpmn.GenerateProcessVariablesProcessor;
+import org.jbpm.migration.bpmn.GenerateUniqueIoSpecificationIdProcessor;
+import org.jbpm.migration.bpmn.MultiSourceToDivergingGatewayProcessor;
+import org.jbpm.migration.bpmn.MultiTargetToConvergingGatewayProcessor;
 import org.w3c.dom.Document;
 
 /**
@@ -16,6 +19,8 @@ public class BpmnChainedProcessor implements DomProcessor {
 	
 	public BpmnChainedProcessor() {
 		domEnhancers = new LinkedList<DomProcessor>();
+		domEnhancers.add(new GenerateProcessVariablesProcessor());
+		domEnhancers.add(new GenerateUniqueIoSpecificationIdProcessor());
 		domEnhancers.add(new MultiTargetToConvergingGatewayProcessor());
 		domEnhancers.add(new MultiSourceToDivergingGatewayProcessor());
 	}
@@ -28,9 +33,9 @@ public class BpmnChainedProcessor implements DomProcessor {
 	}
 	
 	@Override
-	public void process(Document bpmn) {
+	public void process(Document doc) {
 		for(DomProcessor enhancer : domEnhancers) {
-			enhancer.process(bpmn);
+			enhancer.process(doc);
 		}
 	}
 	
