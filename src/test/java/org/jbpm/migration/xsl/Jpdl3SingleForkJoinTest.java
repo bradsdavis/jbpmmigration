@@ -24,9 +24,15 @@ package org.jbpm.migration.xsl;
 public class Jpdl3SingleForkJoinTest extends AbstractJpdl3Test {
     // Input jPDL file.
     private static final String INPUT_JPDL = "src/test/resources/jpdl3/singleForkJoin/processdefinition.xml";
+    private static final String INPUT_GPD = "src/test/resources/jpdl3/singleForkJoin/gpd.xml";
 
     @Override
     protected String getJpdlFile() {
         return INPUT_JPDL;
+    }
+    
+    @Override
+    protected String getGpdFile() {
+    	return INPUT_GPD;
     }
 }

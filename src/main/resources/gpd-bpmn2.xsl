@@ -26,7 +26,7 @@
   <xsl:template match="node">
 	<bpmndi:BPMNShape xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC">
 	  <xsl:attribute name="bpmnElement">
-		<xsl:value-of select="@name" />
+	  	<xsl:value-of select="translate(@name,' ','_')" />
       </xsl:attribute>
       <dc:Bounds>
       	<xsl:attribute name="x">

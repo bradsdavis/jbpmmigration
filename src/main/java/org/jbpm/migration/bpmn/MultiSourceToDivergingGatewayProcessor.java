@@ -70,9 +70,10 @@ public class MultiSourceToDivergingGatewayProcessor implements DomProcessor {
 	private void generateBpmnShapeLocation(Document document, String originalId, String gatewayName) {
 		Match bpmnShapeOriginal = $(document).find("BPMNShape").filter(attr("bpmnElement", originalId)).child();
 		
-		if(bpmnShapeOriginal != null) {
+		if(bpmnShapeOriginal != null && bpmnShapeOriginal.isNotEmpty()) {
 			//deep copy
-			bpmnShapeOriginal = $($(bpmnShapeOriginal).toString());
+			String result = $(bpmnShapeOriginal).toString();
+			bpmnShapeOriginal = $(result);
 			
 			String yVal = $(bpmnShapeOriginal).attr("y");
 			if(StringUtils.isNotBlank(yVal)) {

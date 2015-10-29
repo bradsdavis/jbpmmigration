@@ -59,7 +59,7 @@ public class MultiTargetToConvergingGatewayProcessor implements DomProcessor {
 	private void generateBpmnShapeLocation(Document document, String originalId, String gatewayName) {
 		Match bpmnShapeOriginal = $(document).find("BPMNShape").filter(attr("bpmnElement", originalId)).child();
 		
-		if(bpmnShapeOriginal != null) {
+		if(bpmnShapeOriginal != null && bpmnShapeOriginal.isNotEmpty()) {
 			//deep copy
 			bpmnShapeOriginal = $($(bpmnShapeOriginal).toString());
 			

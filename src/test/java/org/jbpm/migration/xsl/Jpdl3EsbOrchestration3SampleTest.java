@@ -26,6 +26,7 @@ import org.junit.Before;
 public class Jpdl3EsbOrchestration3SampleTest extends AbstractJpdl3Test {
     // Input jPDL file.
     private static final String INPUT_JPDL = "src/test/resources/jpdl3/esbOrchestration3Sample/processdefinition.xml";
+    private static final String INPUT_GPD = "src/test/resources/jpdl3/esbOrchestration3Sample/gpd.xml";
 
     @Before
     public void overrideJpdlValidation() {
@@ -35,5 +36,10 @@ public class Jpdl3EsbOrchestration3SampleTest extends AbstractJpdl3Test {
     @Override
     protected String getJpdlFile() {
         return INPUT_JPDL;
+    }
+    
+    @Override
+    protected String getGpdFile() {
+    	return INPUT_GPD;
     }
 }

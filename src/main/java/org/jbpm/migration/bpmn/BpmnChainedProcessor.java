@@ -7,7 +7,7 @@ import org.jbpm.migration.DomProcessor;
 import org.w3c.dom.Document;
 
 /**
- * @author bradsdavis
+ * @author bradsdavis@gmail.com
  *
  */
 public class BpmnChainedProcessor implements DomProcessor {
