@@ -82,7 +82,7 @@ public class MultiSourceToDivergingGatewayProcessor implements DomProcessor {
 					bpmnShapeOriginal.attr("y", y.toString());
 				}
 				catch(Exception e) {
-					
+					LOG.error("Exception adding BPMN Shape Location for Gateway: "+gatewayName, e);
 				}
 			}
 			
@@ -90,7 +90,7 @@ public class MultiSourceToDivergingGatewayProcessor implements DomProcessor {
 			.namespace("di", "http://www.omg.org/spec/DD/20100524/DI")
 			.namespace("dc", "http://www.omg.org/spec/DD/20100524/DC")
 			.find("BPMNPlane").first().append(
-				$("bpmndi:BPMNShape").attr("bpmnElement", gatewayName).append($(bpmnShapeOriginal).copy()));
+				$("bpmndi:BPMNShape").attr("bpmnElement", gatewayName).append($(bpmnShapeOriginal)));
 		}
 	}
 	

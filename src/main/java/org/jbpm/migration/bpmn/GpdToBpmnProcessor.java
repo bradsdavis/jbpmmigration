@@ -7,6 +7,7 @@ import java.io.File;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.log4j.Logger;
 import org.jbpm.migration.DomProcessor;
 import org.w3c.dom.Document;
 
@@ -18,6 +19,8 @@ import org.w3c.dom.Document;
  *
  */
 public class GpdToBpmnProcessor implements DomProcessor {
+	private static final Logger LOG = Logger.getLogger(GpdToBpmnProcessor.class);
+	
 	private static final String DEFAULT_GPD_XSLT_SHEET = "gpd-bpmn2.xsl";
 	
 	final Source gpdXsltSource = new StreamSource(Thread.currentThread().getContextClassLoader().getResourceAsStream(DEFAULT_GPD_XSLT_SHEET));
@@ -36,16 +39,14 @@ public class GpdToBpmnProcessor implements DomProcessor {
 					gpd = $(gpdFile).document();
 					$(gpd).transform(gpdXsltSource);
 					
-					System.out.println($(gpd).toString());
-					
 					//find the name of the process, and enhance the GPD name
 					String processId = $(bpmn).find("process").first().attr("id");
 					$(gpd).find("BPMNPlane").attr("bpmnElement", processId);
 					
 					//append the GPD result to definitions
 					$(bpmn).append($(gpd));
-					System.out.println($(bpmn).toString());
 				} catch (Exception e) {
+					LOG.error("Exception processing gpd.xml", e);
 				}
 	    	}
 	}

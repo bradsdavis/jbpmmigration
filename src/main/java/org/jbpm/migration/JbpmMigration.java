@@ -25,9 +25,11 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.jbpm.migration.Validator.ProcessLanguage;
 import org.jbpm.migration.bpmn.BpmnChainedProcessor;
 import org.jbpm.migration.bpmn.GpdToBpmnProcessor;
+import org.jbpm.migration.bpmn.MultiSourceToDivergingGatewayProcessor;
 import org.w3c.dom.Document;
 
 /**
@@ -37,6 +39,7 @@ import org.w3c.dom.Document;
  */
 public final class JbpmMigration {
     // Default XSLT sheet.
+	private static final Logger LOG = Logger.getLogger(JbpmMigration.class);
     private static final String DEFAULT_XSLT_SHEET = "jpdl3-bpmn2.xsl";
     
     /** Private constructor to prevent instantiation. */
@@ -118,6 +121,7 @@ public final class JbpmMigration {
 			
 			$(document).write(new FileOutputStream(bpmnFile));
 		} catch (Exception e) {
+			LOG.error("Exception processing BPMN file.", e);
 		}
 		
     }
