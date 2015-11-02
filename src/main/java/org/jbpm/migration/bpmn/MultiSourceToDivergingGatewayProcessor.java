@@ -79,7 +79,7 @@ public class MultiSourceToDivergingGatewayProcessor implements DomProcessor {
 			if(StringUtils.isNotBlank(yVal)) {
 				try {
 					Integer y = Integer.parseInt(yVal);
-					y = y + 60;
+					y = y + 40;
 					bpmnShapeOriginal.attr("y", y.toString());
 				}
 				catch(Exception e) {

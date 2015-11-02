@@ -17,12 +17,15 @@ import org.w3c.dom.Element;
  */
 public class SpaceBPMNShapeProcessor implements DomProcessor {
 
-	private final int X_SPACE_FACTOR = 2;
-	private final int Y_SPACE_FACTOR = 2;
+	private final int X_SPACE_FACTOR = 3;
+	private final int Y_SPACE_FACTOR = 3;
 	private static final Logger LOG = Logger.getLogger(SpaceBPMNShapeProcessor.class);
 	
 	@Override
 	public void process(Document bpmn) {
+		int minX = -1;
+		int minY = -1;
+		
 		
 		for(Element shape : $(bpmn).find("BPMNShape")) {
 			Element bounds = $(shape).child("Bounds").first().get(0);
@@ -32,17 +35,41 @@ public class SpaceBPMNShapeProcessor implements DomProcessor {
 			if(StringUtils.isNotBlank(x)&&StringUtils.isNotBlank(y)) {
 				Integer xVal = Integer.parseInt(x);
 				Integer yVal = Integer.parseInt(y);
-				
-				
+
 				xVal = xVal * X_SPACE_FACTOR;
 				yVal = yVal * Y_SPACE_FACTOR;
-				
-				System.out.println("X: "+x+" -> "+xVal.toString());
+
+				if(minX == -1 || xVal < minX) {
+					minX = xVal;
+				}
+				if(minY == -1 || yVal < minY) {
+					minY = yVal;
+				}
 				
 				$(bounds).attr("x", xVal.toString());
 				$(bounds).attr("y", yVal.toString());
 			}
+		}
+		
+		if(minX>0&&minY>0) {
+			System.out.println("MinX: "+minX+", MinY: "+minY);
 			
+			for(Element shape : $(bpmn).find("BPMNShape")) {
+				Element bounds = $(shape).child("Bounds").first().get(0);
+				String x = $(bounds).attr("x");
+				String y = $(bounds).attr("y");
+				
+				if(StringUtils.isNotBlank(x)&&StringUtils.isNotBlank(y)) {
+					Integer xVal = Integer.parseInt(x);
+					Integer yVal = Integer.parseInt(y);
+	
+					xVal = xVal - minX + 80;
+					yVal = yVal - minY + 80;
+					
+					$(bounds).attr("x", xVal.toString());
+					$(bounds).attr("y", yVal.toString());
+				}
+			}
 		}
 	}
 
