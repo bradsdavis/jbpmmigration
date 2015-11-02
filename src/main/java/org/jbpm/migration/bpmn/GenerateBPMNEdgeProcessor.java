@@ -39,8 +39,8 @@ public class GenerateBPMNEdgeProcessor implements DomProcessor {
 			
 			String bpmnEdgeName = "BPMNEdge_"+flowId;
 			if(StringUtils.isNoneBlank(sourceBpmnShapeName) && StringUtils.isNotBlank(targetBpmnShapeName)) {
-				String x = findBpmnShapeCoordinate(bpmn, targetBpmnShapeName, Coordinate.X);
-				String y = findBpmnShapeCoordinate(bpmn, targetBpmnShapeName, Coordinate.Y);
+				String x = findBpmnShapeCoordinate(bpmn, sourceBpmnShapeName, Coordinate.X);
+				String y = findBpmnShapeCoordinate(bpmn, sourceBpmnShapeName, Coordinate.Y);
 				
 				addBpmnEdge(bpmn, bpmnEdgeName, flowId, sourceBpmnShapeName, targetBpmnShapeName, x, y);
 			}
@@ -63,7 +63,7 @@ public class GenerateBPMNEdgeProcessor implements DomProcessor {
 	}
 	
 	private String findBpmnShapeCoordinate(Document bpmn, String ref, Coordinate coordinate) {
-		return $(bpmn).find("BPMNShape").filter(attr("bpmnElement", ref)).find("Bounds").first().attr(coordinate.coorinate);
+		return $(bpmn).find("BPMNShape").filter(attr("bpmnElement", ref)).first().find("Bounds").first().attr(coordinate.coorinate);
 	}
 
 	private void addBpmnEdge(Document document, String bpmnEdgeId, String sequenceFlowId, String bpmnSourceShape, String bpmnTargetShape, String x, String y) {

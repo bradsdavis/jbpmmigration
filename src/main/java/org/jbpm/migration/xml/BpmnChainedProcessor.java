@@ -8,6 +8,7 @@ import org.jbpm.migration.bpmn.GenerateProcessVariablesProcessor;
 import org.jbpm.migration.bpmn.GenerateUniqueIoSpecificationIdProcessor;
 import org.jbpm.migration.bpmn.MultiSourceToDivergingGatewayProcessor;
 import org.jbpm.migration.bpmn.MultiTargetToConvergingGatewayProcessor;
+import org.jbpm.migration.bpmn.SpaceBPMNShapeProcessor;
 import org.w3c.dom.Document;
 
 /**
@@ -25,6 +26,7 @@ public class BpmnChainedProcessor implements DomProcessor {
 		domEnhancers.add(new MultiTargetToConvergingGatewayProcessor());
 		domEnhancers.add(new MultiSourceToDivergingGatewayProcessor());
 		domEnhancers.add(new GenerateBPMNEdgeProcessor());
+		domEnhancers.add(new SpaceBPMNShapeProcessor());
 	}
 
 	public void preProcess(DomProcessor processor) {
