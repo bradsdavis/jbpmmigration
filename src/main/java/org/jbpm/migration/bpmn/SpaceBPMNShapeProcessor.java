@@ -17,8 +17,8 @@ import org.w3c.dom.Element;
  */
 public class SpaceBPMNShapeProcessor implements DomProcessor {
 
-	private final int X_SPACE_FACTOR = 3;
-	private final int Y_SPACE_FACTOR = 3;
+	private final double X_SPACE_FACTOR = 1.5;
+	private final double Y_SPACE_FACTOR = 1.5;
 	private static final Logger LOG = Logger.getLogger(SpaceBPMNShapeProcessor.class);
 	
 	@Override
@@ -36,8 +36,8 @@ public class SpaceBPMNShapeProcessor implements DomProcessor {
 				Integer xVal = Integer.parseInt(x);
 				Integer yVal = Integer.parseInt(y);
 
-				xVal = xVal * X_SPACE_FACTOR;
-				yVal = yVal * Y_SPACE_FACTOR;
+				xVal = (int)Math.round(xVal * X_SPACE_FACTOR);
+				yVal = (int)Math.round(yVal * Y_SPACE_FACTOR);
 
 				if(minX == -1 || xVal < minX) {
 					minX = xVal;

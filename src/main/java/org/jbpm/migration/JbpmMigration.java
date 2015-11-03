@@ -95,6 +95,10 @@ public final class JbpmMigration {
         XmlUtils.transform(xmlSource, xsltSource, xmlResult);
     }
     
+    
+    public static void transform(final File jpdlFile, final File gpdFile, final File bpmnFile) {
+    	transform(jpdlFile, gpdFile, bpmnFile, true);
+    }
 
     /** 
      * Transforms jPDL to BPMN; supports GPD 
@@ -103,7 +107,10 @@ public final class JbpmMigration {
      * @param gpdFile
      * @param bpmnFile
      */
-    public static void transform(final File jpdlFile, final File gpdFile, final File bpmnFile) {
+    public static void transform(final File jpdlFile, final File gpdFile, final File bpmnFile, boolean autoLayout) {
+    	if(autoLayout) {
+    		System.setProperty("auto-layout", "true");
+    	}
     	//test the JDPL to see if it has a namespace...
     	try {
     		Document doc = $(jpdlFile).document();

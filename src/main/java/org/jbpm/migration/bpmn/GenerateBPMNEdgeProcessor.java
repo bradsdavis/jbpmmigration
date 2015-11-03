@@ -39,10 +39,7 @@ public class GenerateBPMNEdgeProcessor implements DomProcessor {
 			
 			String bpmnEdgeName = "BPMNEdge_"+flowId;
 			if(StringUtils.isNoneBlank(sourceBpmnShapeName) && StringUtils.isNotBlank(targetBpmnShapeName)) {
-				String x = findBpmnShapeCoordinate(bpmn, sourceBpmnShapeName, Coordinate.X);
-				String y = findBpmnShapeCoordinate(bpmn, sourceBpmnShapeName, Coordinate.Y);
-				
-				addBpmnEdge(bpmn, bpmnEdgeName, flowId, sourceBpmnShapeName, targetBpmnShapeName, x, y);
+				addBpmnEdge(bpmn, bpmnEdgeName, flowId, sourceBpmnShapeName, targetBpmnShapeName);
 			}
 			else {
 				System.out.println("Didn't create BPMNEdge for: "+flowId+": source["+sourceRef+"] target["+targetBpmnShapeName+"]");
@@ -61,22 +58,74 @@ public class GenerateBPMNEdgeProcessor implements DomProcessor {
 		
 		return null;
 	}
-	
-	private String findBpmnShapeCoordinate(Document bpmn, String ref, Coordinate coordinate) {
-		return $(bpmn).find("BPMNShape").filter(attr("bpmnElement", ref)).first().find("Bounds").first().attr(coordinate.coorinate);
-	}
 
-	private void addBpmnEdge(Document document, String bpmnEdgeId, String sequenceFlowId, String bpmnSourceShape, String bpmnTargetShape, String x, String y) {
-		if(StringUtils.isBlank(x)) {
-			x = "0";
-		}
-		if(StringUtils.isBlank(y)) {
-			y = "0";
+	private Integer findBpmnShapeX(Document bpmn, String sourceRef) {
+		String bpmnShapeId = $(bpmn).find("BPMNShape").filter(attr("id", sourceRef)).child("Bounds").attr("x");
+		if(StringUtils.isNotBlank(bpmnShapeId)) {
+			return Integer.parseInt(bpmnShapeId);
 		}
 		
-		Match wayPoint = $("di:waypoint").namespace("xsi", "http://www.w3.org/2001/XMLSchema-instance").namespace("di", "http://www.omg.org/spec/DD/20100524/DI");
-		wayPoint.attr("x", x).attr("y", y);
-		wayPoint.attr("xsi:type", "dc:Point");
+		return null;
+	}
+	
+	private Integer findBpmnShapeY(Document bpmn, String sourceRef) {
+		String bpmnShapeId = $(bpmn).find("BPMNShape").filter(attr("id", sourceRef)).child("Bounds").attr("y");
+		if(StringUtils.isNotBlank(bpmnShapeId)) {
+			return Integer.parseInt(bpmnShapeId);
+		}
+		
+		return null;
+	}
+	
+	private Integer findBpmnShapeWidth(Document bpmn, String sourceRef) {
+		String bpmnShapeId = $(bpmn).find("BPMNShape").filter(attr("id", sourceRef)).child("Bounds").attr("width");
+		if(StringUtils.isNotBlank(bpmnShapeId)) {
+			return Integer.parseInt(bpmnShapeId);
+		}
+		
+		return null;
+	}
+	
+	private Integer findBpmnShapeHeight(Document bpmn, String sourceRef) {
+		String bpmnShapeId = $(bpmn).find("BPMNShape").filter(attr("id", sourceRef)).child("Bounds").attr("height");
+		if(StringUtils.isNotBlank(bpmnShapeId)) {
+			return Integer.parseInt(bpmnShapeId);
+		}
+		
+		return null;
+	}
+	
+	
+	private String findBpmnShapeCoordinate(Document bpmn, String ref, Coordinate coordinate) {
+		return $(bpmn).find("BPMNShape").filter(attr("id", ref)).first().find("Bounds").first().attr(coordinate.coorinate);
+	}
+
+	private void addBpmnEdge(Document document, String bpmnEdgeId, String sequenceFlowId, String bpmnSourceShape, String bpmnTargetShape) {
+		Integer sourceX = findBpmnShapeX(document, bpmnSourceShape);
+		Integer sourceY = findBpmnShapeY(document, bpmnSourceShape);
+		Integer sourceHeight = findBpmnShapeHeight(document, bpmnSourceShape);
+		Integer sourceWidth = findBpmnShapeWidth(document, bpmnSourceShape);
+		Integer sourceWaypointX = sourceX + Math.round(sourceWidth/2);
+		Integer sourceWaypointY = sourceY - Math.round(sourceHeight/2);
+		
+		
+		Integer targetX = findBpmnShapeX(document, bpmnTargetShape);
+		Integer targetY = findBpmnShapeY(document, bpmnTargetShape);
+		Integer targetHeight = findBpmnShapeHeight(document, bpmnTargetShape);
+		Integer targetWidth = findBpmnShapeWidth(document, bpmnTargetShape);
+		Integer targetWaypointX = targetX + Math.round(targetWidth/2);
+		Integer targetWaypointY = targetY - Math.round(targetHeight/2);
+		
+		
+		System.out.println("X: "+sourceWaypointX+" Y: "+sourceWaypointY);
+		
+		Match sourceWayPoint = $("di:waypoint").attr("xmlns:di", "http://www.omg.org/spec/DD/20100524/DI");
+		sourceWayPoint.attr("x", sourceWaypointX+".0").attr("y", sourceWaypointY+".0");
+		sourceWayPoint.attr("xsi:type", "dc:Point");
+		
+		Match targetWayPoint = $("di:waypoint").attr("xmlns:di", "http://www.omg.org/spec/DD/20100524/DI");
+		targetWayPoint.attr("x", targetWaypointX+".0").attr("y", targetWaypointY+".0");
+		targetWayPoint.attr("xsi:type", "dc:Point");
 		
 		//<bpmn2:property id="processVar1" itemSubjectRef="ItemDefinition_1" name="processVar1"/>
 		$(document).find("BPMNPlane").first().append(
@@ -84,7 +133,7 @@ public class GenerateBPMNEdgeProcessor implements DomProcessor {
 					.attr("bpmnElement", sequenceFlowId)
 					.attr("sourceElement", bpmnSourceShape)
 					.attr("targetElement", bpmnTargetShape)
-					.append(wayPoint));
+					.append(sourceWayPoint).append(targetWayPoint));
 	}
 	
 	
