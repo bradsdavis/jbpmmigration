@@ -56,9 +56,9 @@
             <url>https://repository.jboss.org/nexus/content/groups/public/</url>
         </repository>
       <repository>
-         <id>oss-sonatype</id>
-         <name>oss-sonatype</name>
-         <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+         <id>gephi</id>
+         <name>gephi</name>
+         <url>https://nexus.gephi.org/nexus/content/repositories/releases/</url>
          <snapshots>
             <enabled>true</enabled>
          </snapshots>
