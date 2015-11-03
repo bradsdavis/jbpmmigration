@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.gephi.graph.api.Edge;
 import org.gephi.graph.api.GraphModel;
 import org.gephi.graph.api.Node;
+import org.joox.Match;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -47,15 +48,38 @@ public class BpmnShapeUtil {
 			String sourceRef = $(sequenceFlow).attr("sourceRef");
 			String sourceBpmnShapeName = findBpmnShapeName(bpmn, sourceRef);
 			
+			if(StringUtils.isBlank(sourceBpmnShapeName)) {
+				sourceBpmnShapeName = addBpmnShape(bpmn, sourceRef);
+			}
 			
 			String targetRef = $(sequenceFlow).attr("targetRef");
 			String targetBpmnShapeName = findBpmnShapeName(bpmn, targetRef);
 		
+			if(StringUtils.isBlank(targetBpmnShapeName)) {
+				sourceBpmnShapeName = addBpmnShape(bpmn, targetRef);
+			}
+			
 			Edge edge = graphModel.factory().newEdge(nodes.get(sourceBpmnShapeName), nodes.get(targetBpmnShapeName), 2f, true);
 			edges.add(edge);
 		}
 		
 		return edges;
+	}
+	
+	private static String addBpmnShape(Document document, String bpmnElementId) {
+		String elementId = "BPMNShape_"+bpmnElementId;
+		//<dc:Bounds height="30.0" width="30.0" x="0.0" y="0.0"/>
+		Match bounds = $("dc:Bounds").attr("xmlns:dc", "http://www.omg.org/spec/DD/20100524/DC");
+		bounds.attr("x", "0").attr("y", "0");
+		bounds.attr("width", "120").attr("height", "80");
+		
+		//<bpmn2:property id="processVar1" itemSubjectRef="ItemDefinition_1" name="processVar1"/>
+		$(document).find("BPMNPlane").first().append(
+				$("bpmndi:BPMNShape").attr("id", elementId)
+					.attr("bpmnElement", bpmnElementId)
+					.append(bounds));
+		
+		return elementId;
 	}
 	
 	private static String findBpmnShapeName(Document bpmn, String sourceRef) {

@@ -56,7 +56,6 @@ public class GenerateUniqueIoSpecificationIdProcessor implements DomProcessor {
 			uniqueInputIdMap.put(id, uuid);
 			
 			$(input).attr("id", uuid);
-			System.out.println("Mapping Input ID: "+id +" -> "+uuid);
 		}
 		
 		//get all data output
@@ -66,7 +65,6 @@ public class GenerateUniqueIoSpecificationIdProcessor implements DomProcessor {
 			uniqueOutputIdMap.put(id, uuid);
 			
 			$(input).attr("id", uuid);
-			System.out.println("Mapping Output ID: "+id +" -> "+uuid);
 		}
 	}
 

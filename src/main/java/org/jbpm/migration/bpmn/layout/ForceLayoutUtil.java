@@ -32,18 +32,12 @@ public class ForceLayoutUtil {
         //Create three nodes
         for(Node n : shapeIds.values()) {
         	directedGraph.addNode(n);
-        	
-        	System.out.println("Node: "+n.getNodeData().getId());
         }
         
         List<Edge> edges = BpmnShapeUtil.getEdges(graphModel, bpmn, shapeIds);
         for(Edge e : edges) {
         	directedGraph.addEdge(e);
         }
-        
-        
-        System.out.println("Nodes: " + directedGraph.getNodeCount());
-        System.out.println("Edges: " + directedGraph.getEdgeCount());
         
         //Layout for 1 minute
         AutoLayout autoLayout = new AutoLayout(1, TimeUnit.SECONDS);
@@ -75,8 +69,6 @@ public class ForceLayoutUtil {
         		minY = y;
         	}
         }
-        System.out.println("Min: X: "+minX+", Y: "+minY);
-       
         for (Node n : graphModel.getGraph().getNodes()) {
         	Float x = (-1)*n.getNodeData().x();
         	Float y = (-1)*n.getNodeData().y();
@@ -86,7 +78,6 @@ public class ForceLayoutUtil {
         	x = x+dx;
         	y = y+dy;
         	
-        	System.out.println("Was X: "+x+" Y: "+y);
         	x = x + + (-1)*minX;
         	y = y + ((-1)*minY);
         	
@@ -95,7 +86,6 @@ public class ForceLayoutUtil {
         	
         	n.getAttributes().setValue("XFinal", xFinal);
         	n.getAttributes().setValue("YFinal", yFinal);
-        	System.out.println("Is X: "+xFinal+" Y: "+yFinal);
         	
         	BpmnShapeUtil.updateXY(bpmn, n.getNodeData().getLabel(), xFinal, yFinal);
         }

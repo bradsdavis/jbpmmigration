@@ -10,8 +10,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Checks for multiple targetRef's pointing to BPMN nodes that aren't converging gateways.
- * The processor then introduces the converging gateway to the workflow to align with BPMN 2.
+ * Sets the size of the standard elements; pads certain elements from the GPD to 
+ * the BPMN2.
  * 
  * @author bradsdavis@gmail.com
  *

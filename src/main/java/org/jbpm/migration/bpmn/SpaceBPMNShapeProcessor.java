@@ -9,8 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Checks for multiple targetRef's pointing to BPMN nodes that aren't converging gateways.
- * The processor then introduces the converging gateway to the workflow to align with BPMN 2.
+ * Spaces out the shapes of the diagram.
  * 
  * @author bradsdavis@gmail.com
  *
@@ -52,8 +51,6 @@ public class SpaceBPMNShapeProcessor implements DomProcessor {
 		}
 		
 		if(minX>0&&minY>0) {
-			System.out.println("MinX: "+minX+", MinY: "+minY);
-			
 			for(Element shape : $(bpmn).find("BPMNShape")) {
 				Element bounds = $(shape).child("Bounds").first().get(0);
 				String x = $(bounds).attr("x");

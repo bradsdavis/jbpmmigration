@@ -32,8 +32,6 @@ public class MultiLevelLayoutUtil {
         //Create three nodes
         for(Node n : shapeIds.values()) {
         	directedGraph.addNode(n);
-        	
-        	System.out.println("Node: "+n.getNodeData().getId());
         }
         
         List<Edge> edges = BpmnShapeUtil.getEdges(graphModel, bpmn, shapeIds);
@@ -41,12 +39,8 @@ public class MultiLevelLayoutUtil {
         	directedGraph.addEdge(e);
         }
         
-        
-        System.out.println("Nodes: " + directedGraph.getNodeCount());
-        System.out.println("Edges: " + directedGraph.getEdgeCount());
-        
         //Layout for 1 minute
-        AutoLayout autoLayout = new AutoLayout(5, TimeUnit.SECONDS);
+        AutoLayout autoLayout = new AutoLayout(2, TimeUnit.SECONDS);
         autoLayout.setGraphModel(graphModel);
         
         YifanHuLayout firstLayout = new YifanHuLayout(null, new StepDisplacement(2f));
@@ -74,8 +68,6 @@ public class MultiLevelLayoutUtil {
         		minY = y;
         	}
         }
-        System.out.println("Min: X: "+minX+", Y: "+minY);
-       
         for (Node n : graphModel.getGraph().getNodes()) {
         	Float x = (-1)*n.getNodeData().x();
         	Float y = (-1)*n.getNodeData().y();
@@ -85,16 +77,11 @@ public class MultiLevelLayoutUtil {
         	x = x+dx;
         	y = y+dy;
         	
-        	System.out.println("Was X: "+x+" Y: "+y);
         	x = x + + (-1)*minX;
         	y = y + ((-1)*minY);
         	
         	Integer xFinal = (int)Math.round(x * COEFFICIENT);
         	Integer yFinal = (int)Math.round(y * COEFFICIENT);
-        	
-        	n.getAttributes().setValue("XFinal", xFinal);
-        	n.getAttributes().setValue("YFinal", yFinal);
-        	System.out.println("Is X: "+xFinal+" Y: "+yFinal);
         	
         	BpmnShapeUtil.updateXY(bpmn, n.getNodeData().getLabel(), xFinal, yFinal);
         }

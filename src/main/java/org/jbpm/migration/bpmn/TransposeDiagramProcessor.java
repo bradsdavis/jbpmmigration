@@ -10,8 +10,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Checks for multiple targetRef's pointing to BPMN nodes that aren't converging gateways.
- * The processor then introduces the converging gateway to the workflow to align with BPMN 2.
+ * Flips diagram based on location of the start node.
  * 
  * @author bradsdavis@gmail.com
  *
@@ -39,14 +38,10 @@ public class TransposeDiagramProcessor implements DomProcessor {
 		if(startY > midY) {
 			transposeUp = true;
 		}
-		
-		System.out.println("Mid: "+midX+midY);
 		repositionToMid(bpmn, midX, midY);
-		
 		if(transposeLeft) {
 			transposeHorizantal(bpmn);
 		}
-		
 		if(transposeUp) {
 			transposeVertical(bpmn);
 		}

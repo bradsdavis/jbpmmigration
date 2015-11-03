@@ -11,8 +11,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Checks for multiple targetRef's pointing to BPMN nodes that aren't converging gateways.
- * The processor then introduces the converging gateway to the workflow to align with BPMN 2.
+ * Generates process variable mapping.
  * 
  * @author bradsdavis@gmail.com
  *

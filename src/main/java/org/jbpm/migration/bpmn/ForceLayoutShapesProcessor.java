@@ -6,6 +6,12 @@ import org.jbpm.migration.bpmn.layout.MultiLevelLayoutUtil;
 import org.jbpm.migration.xml.DomProcessor;
 import org.w3c.dom.Document;
 
+/**
+ * Leverages the YifanHu algorithm to automatically lay out the BPMN workflows
+ * 
+ * @author bradsdavis@redhat.com
+ *
+ */
 public class ForceLayoutShapesProcessor implements DomProcessor {
 
 	private static final Logger LOG = Logger.getLogger(ForceLayoutShapesProcessor.class);
