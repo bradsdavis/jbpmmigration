@@ -49,6 +49,12 @@ public class SizeShapesProcessor implements DomProcessor {
 			setBpmnShapeHeight(bpmn, id, 40);
 			setBpmnShapeWidth(bpmn, id, 40);
 		}
+		for(Element evt : $(bpmn).find("intermediateCatchEvent").get()) {
+			//find the BPMNShape with the source and targets
+			String id = $(evt).attr("id");
+			setBpmnShapeHeight(bpmn, id, 40);
+			setBpmnShapeWidth(bpmn, id, 40);
+		}
 		
 		for(Element sequenceFlow : $(bpmn).find("scriptTask").get()) {
 			//find the BPMNShape with the source and targets

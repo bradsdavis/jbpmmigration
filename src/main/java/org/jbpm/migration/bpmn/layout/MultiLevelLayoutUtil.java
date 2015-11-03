@@ -30,11 +30,10 @@ public class MultiLevelLayoutUtil {
         DirectedGraph directedGraph = graphModel.getDirectedGraph();
         
         //Create three nodes
+        List<Edge> edges = BpmnShapeUtil.getEdges(graphModel, bpmn, shapeIds);
         for(Node n : shapeIds.values()) {
         	directedGraph.addNode(n);
         }
-        
-        List<Edge> edges = BpmnShapeUtil.getEdges(graphModel, bpmn, shapeIds);
         for(Edge e : edges) {
         	directedGraph.addEdge(e);
         }

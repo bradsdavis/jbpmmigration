@@ -49,16 +49,17 @@ public class BpmnShapeUtil {
 			String sourceBpmnShapeName = findBpmnShapeName(bpmn, sourceRef);
 			
 			if(StringUtils.isBlank(sourceBpmnShapeName)) {
-				sourceBpmnShapeName = addBpmnShape(bpmn, sourceRef);
+				sourceBpmnShapeName = addBpmnShape(graphModel, bpmn, sourceRef, nodes);
 			}
 			
 			String targetRef = $(sequenceFlow).attr("targetRef");
 			String targetBpmnShapeName = findBpmnShapeName(bpmn, targetRef);
 		
 			if(StringUtils.isBlank(targetBpmnShapeName)) {
-				sourceBpmnShapeName = addBpmnShape(bpmn, targetRef);
+				targetBpmnShapeName = addBpmnShape(graphModel, bpmn, targetRef, nodes);
 			}
 			
+			Node source = nodes.get(sourceBpmnShapeName);
 			Edge edge = graphModel.factory().newEdge(nodes.get(sourceBpmnShapeName), nodes.get(targetBpmnShapeName), 2f, true);
 			edges.add(edge);
 		}
@@ -66,7 +67,7 @@ public class BpmnShapeUtil {
 		return edges;
 	}
 	
-	private static String addBpmnShape(Document document, String bpmnElementId) {
+	private static String addBpmnShape(GraphModel graphModel, Document document, String bpmnElementId, Map<String, Node> nodes) {
 		String elementId = "BPMNShape_"+bpmnElementId;
 		//<dc:Bounds height="30.0" width="30.0" x="0.0" y="0.0"/>
 		Match bounds = $("dc:Bounds").attr("xmlns:dc", "http://www.omg.org/spec/DD/20100524/DC");
@@ -78,6 +79,11 @@ public class BpmnShapeUtil {
 				$("bpmndi:BPMNShape").attr("id", elementId)
 					.attr("bpmnElement", bpmnElementId)
 					.append(bounds));
+		
+		Node n0 = graphModel.factory().newNode(elementId);
+        n0.getNodeData().setLabel(elementId);
+		nodes.put(elementId, n0);
+		n0.getNodeData().setSize(1000.0f);
 		
 		return elementId;
 	}

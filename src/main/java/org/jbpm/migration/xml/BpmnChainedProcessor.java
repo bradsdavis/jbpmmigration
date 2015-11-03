@@ -29,8 +29,8 @@ public class BpmnChainedProcessor implements DomProcessor {
 		domEnhancers.add(new MultiTargetToConvergingGatewayProcessor());
 		domEnhancers.add(new MultiSourceToDivergingGatewayProcessor());
 		domEnhancers.add(new SpaceBPMNShapeProcessor());
-		domEnhancers.add(new SizeShapesProcessor());
 		domEnhancers.add(new ForceLayoutShapesProcessor());
+		domEnhancers.add(new SizeShapesProcessor());
 		domEnhancers.add(new TransposeDiagramProcessor());
 		domEnhancers.add(new GenerateBPMNEdgeProcessor());
 	}
